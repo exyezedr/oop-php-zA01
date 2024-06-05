@@ -2,21 +2,37 @@
 
 class Person
 {
-    public string $name = "anonymous";
-    public ?string $city;
+    const string AUTHOR = "anonymous";
 
-    public function sayHello(string $name): string
+    public string $name;
+
+    public function sayHello(?string $name): string
     {
-        return "hello $name";
+        return "hello" . ($name ? " $name" : "") . ", my name is $this->name";
+    }
+
+    public function infoSelf(): string
+    {
+        return self::AUTHOR;
+    }
+
+    public function infoClass(): string
+    {
+        return Person::AUTHOR;
     }
 }
 
-$person = new Person();
+$person1 = new Person();
+$person2 = new Person();
 
-$person->city = null;
+$person1->name = "john doe";
+$person2->name = "david wilson";
+
+echo Person::AUTHOR . "\n";
 
 echo <<<MULTILINE
-name = $person->name
-city = $person->city
-{$person->sayHello("david wilson")}\n
+{$person1->sayHello($person2->name)}
+{$person2->sayHello(null)}
+{$person1->infoSelf()}
+{$person2->infoClass()}\n
 MULTILINE;
