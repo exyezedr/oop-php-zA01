@@ -2,10 +2,21 @@
 
 class Person
 {
+    public string $name = "anonymous";
+    public ?string $city;
+
+    public function sayHello(string $name): string
+    {
+        return "hello $name";
+    }
 }
 
-$person1 = new Person();
-$person2 = new Person();
+$person = new Person();
 
-echo json_encode($person1) . "\n";
-echo json_encode($person2) . "\n";
+$person->city = null;
+
+echo <<<MULTILINE
+name = $person->name
+city = $person->city
+{$person->sayHello("david wilson")}\n
+MULTILINE;
