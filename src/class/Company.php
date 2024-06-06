@@ -25,20 +25,14 @@ class Company
 
 function sayHello(Programmer $programmer): string
 {
-    return "hello $programmer->name";
+    if ($programmer instanceof BackendProgrammer) {
+        return "hello $programmer->name (backend programmer)";
+    } else if ($programmer instanceof FrontendProgrammer) {
+        return "hello $programmer->name (frontend programmer)";
+    } else {
+        return "hello $programmer->name (programmer)";
+    }
 }
-
-$company = new Company();
-echo json_encode($company) . "\n";
-
-$company->programmer = new Programmer("john doe");
-echo json_encode($company) . "\n";
-
-$company->programmer = new BackendProgrammer("jane doe");
-echo json_encode($company) . "\n";
-
-$company->programmer = new FrontendProgrammer("david wilson");
-echo json_encode($company) . "\n";
 
 echo sayHello(new Programmer("john doe")) . "\n";
 echo sayHello(new BackendProgrammer("jane doe")) . "\n";
