@@ -7,7 +7,7 @@ trait HasName
 
 trait SayHello
 {
-    public function sayHello(?string $name): string
+    private function sayHello(?string $name): string
     {
         return "hello" . ($name ? " $name" : "") . ", my name is $this->name";
     }
@@ -20,20 +20,12 @@ trait CanRun
 
 trait All
 {
-    use SayHello, HasName, CanRun;
-}
-
-class ParentPerson
-{
-    use HasName;
-
-    public function sayHello(?string $name): string
-    {
-        return "hello" . ($name ? " $name" : "") . ", my name is $this->name (parent class)";
+    use SayHello, HasName, CanRun {
+        sayHello as public;
     }
 }
 
-class Person extends ParentPerson
+class Person
 {
     use All;
 
