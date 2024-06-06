@@ -1,10 +1,20 @@
 <?php
 
+class Food
+{
+}
+
+class AnimalFood extends Food
+{
+}
+
 abstract class Animal
 {
     public string $name;
 
     abstract public function run(): string;
+
+    abstract public function eat(AnimalFood $food): string;
 }
 
 class Cat extends Animal
@@ -13,6 +23,11 @@ class Cat extends Animal
     {
         return "cat $this->name is running";
     }
+
+    public function eat(AnimalFood $food): string
+    {
+        return "cat $this->name is eating";
+    }
 }
 
 class Dog extends Animal
@@ -20,6 +35,11 @@ class Dog extends Animal
     public function run(): string
     {
         return "dog $this->name is running";
+    }
+
+    public function eat(Food $food): string
+    {
+        return "dog $this->name is eating";
     }
 }
 
@@ -55,7 +75,10 @@ class DogShelter implements AnimalShelter
 $catShelter = new CatShelter();
 $dogShelter = new DogShelter();
 
+$cat = $catShelter->adopt("appa");
+$dog = $dogShelter->adopt("appu");
+
 echo <<<MULTILINE
-{$catShelter->adopt("appa")->run()}
-{$dogShelter->adopt("appu")->run()}\n
+{$cat->eat(new AnimalFood())}
+{$dog->eat(new Food())}\n
 MULTILINE;
