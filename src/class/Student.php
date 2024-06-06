@@ -3,23 +3,39 @@
 class Student
 {
     public string $name;
-    private string $city;
+    public string $value;
 
-    public function setCity(string $city): void
+    public function __toString(): string
     {
-        $this->city = $city;
+        return "$this->name | $this->value";
+    }
+
+    public function __invoke(mixed ...$arguments): string
+    {
+        return "calling 'student' with arguments [" . join(", ", $arguments) . "]";
+    }
+
+    public function __debugInfo(): array
+    {
+        return [
+            "name" => $this->name,
+            "value" => $this->value,
+            "author" => "john doe",
+            "version" => 10,
+        ];
     }
 }
 
-$student1 = new Student();
-$student2 = new Student();
+$student = new Student();
 
-$student1->name = "john doe";
-$student1->setCity("surabaya");
+$student->name = "david wilson";
+$student->value = 10;
 
-$student2->name = "john doe";
-$student2->setCity("surabaya");
+echo <<<MULTILINE
+$student
+{$student("john doe", 10, 10.10)}\n
+MULTILINE;
 
-echo json_encode($student1 == $student2) . "\n";
-echo json_encode($student1 === $student2) . "\n";
-echo json_encode($student1 === $student1) . "\n";
+echo "==================================================\n";
+
+var_dump($student);
