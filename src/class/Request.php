@@ -10,50 +10,41 @@ class LoginRequest
     public ?string $password;
 }
 
-function validateLoginRequest(LoginRequest $request): void
+class RegisterUserRequest
 {
-    if (!isset($request->username)) {
-        throw new ValidationException("username is null");
-    } else if (!isset($request->password)) {
-        throw new ValidationException("password is null");
-    } else if (trim($request->username) === "") {
-        throw new Exception("username is empty");
-    } else if (trim($request->password) === "") {
-        throw new Exception("password is empty");
+    public ?string $name;
+    public ?string $address;
+    public ?string $email;
+}
+
+function validate(object $request): void
+{
+    $reflection = new ReflectionClass($request);
+    $properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
+
+    foreach ($properties as $property) {
+        if (!$property->isInitialized($request)) {
+            throw new ValidationException("$property->name is not set");
+        } else if (is_null($property->getValue($request))) {
+            throw new ValidationException("$property->name is null");
+        } else if (trim($property->getValue($request)) === "") {
+            throw new ValidationException("$property->name is empty");
+        }
     }
 }
 
 $loginRequest = new LoginRequest();
+$registerUserRequest = new RegisterUserRequest();
 
 $loginRequest->username = "john-doe";
-$loginRequest->password = "";
+$loginRequest->password = "jd10";
 
 try {
-    validateLoginRequest($loginRequest);
-} catch (ValidationException $exception) {
-    echo "validation error = {$exception->getMessage()}\n";
-} catch (Exception $exception) {
-    echo "error = {$exception->getMessage()}\n";
-} finally {
-    echo "done\n";
-}
+    validate($loginRequest);
+    echo "valid\n";
 
-echo "==================================================\n";
-
-try {
-    validateLoginRequest($loginRequest);
-} catch (ValidationException | Exception $exception) {
-    echo "error = {$exception->getMessage()}\n";
-
-    echo "==================================================\n";
-
-    echo "$exception\n";
-
-    echo "==================================================\n";
-
-    echo "{$exception->getTraceAsString()}\n";
-
-    echo "==================================================\n";
-
-    var_dump($exception->getTrace());
+    validate($registerUserRequest);
+    echo "valid\n";
+} catch (ValidationException $error) {
+    echo "error = {$error->getMessage()}\n";
 }
