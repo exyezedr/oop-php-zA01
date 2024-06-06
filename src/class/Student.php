@@ -9,21 +9,17 @@ class Student
     {
         $this->city = $city;
     }
-
-    // if you want only some property
-    public function __clone(): void
-    {
-        unset($this->city);
-    }
 }
 
 $student1 = new Student();
+$student2 = new Student();
 
 $student1->name = "john doe";
-
 $student1->setCity("surabaya");
 
-$student2 = clone $student1;
+$student2->name = "john doe";
+$student2->setCity("surabaya");
 
-var_dump($student1);
-var_dump($student2);
+echo json_encode($student1 == $student2) . "\n";
+echo json_encode($student1 === $student2) . "\n";
+echo json_encode($student1 === $student1) . "\n";
