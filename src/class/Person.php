@@ -23,18 +23,23 @@ trait All
     use SayHello, HasName, CanRun;
 }
 
-class Person
+class ParentPerson
+{
+    use HasName;
+
+    public function sayHello(?string $name): string
+    {
+        return "hello" . ($name ? " $name" : "") . ", my name is $this->name (parent class)";
+    }
+}
+
+class Person extends ParentPerson
 {
     use All;
 
     public function run(): string
     {
         return "$this->name is running";
-    }
-
-    public function sayHello(?string $name): string
-    {
-        return "hello" . ($name ? " $name" : "") . ", my name is $this->name (class)";
     }
 }
 
