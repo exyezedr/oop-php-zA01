@@ -31,6 +31,11 @@ class Person
     {
         return "$this->name is running";
     }
+
+    public function sayHello(?string $name): string
+    {
+        return "hello" . ($name ? " $name" : "") . ", my name is $this->name (class)";
+    }
 }
 
 $person = new Person();
