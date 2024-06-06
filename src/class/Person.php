@@ -1,22 +1,43 @@
 <?php
 
-class Person
+trait HasName
 {
     public string $name;
-    public string $city;
+}
 
-    public function __construct(string $name, string $city)
+trait SayHello
+{
+    public function sayHello(?string $name): string
     {
-        $this->name = $name;
-        $this->city = $city;
-
-        echo json_encode($this) . "\n";
-    }
-
-    public function __destruct()
-    {
-        echo "object person $this->name destroyed\n";
+        return "hello" . ($name ? " $name" : "") . ", my name is $this->name";
     }
 }
 
-$person = new Person("john doe", "surabaya");
+trait CanRun
+{
+    abstract public function run(): string;
+}
+
+trait All
+{
+    use SayHello, HasName, CanRun;
+}
+
+class Person
+{
+    use All;
+
+    public function run(): string
+    {
+        return "$this->name is running";
+    }
+}
+
+$person = new Person();
+
+$person->name = "john doe";
+
+echo <<<MULTILINE
+{$person->sayHello("david wilson")}
+{$person->run()}\n
+MULTILINE;
