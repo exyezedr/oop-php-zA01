@@ -6,6 +6,6 @@ class Manager
 
     public function sayHello(string $name): string
     {
-        return "hello $name, my name is $this->name";
+        return "hello $name, my name is $this->name (manager)";
     }
 }

@@ -4,6 +4,10 @@ require_once __DIR__ . "/Manager.php";
 
 class VicePresident extends Manager
 {
+    public function sayHello(string $name): string
+    {
+        return "hello $name, my name is $this->name (vice president)";
+    }
 }
 
 $manager = new Manager();
