@@ -6,23 +6,20 @@ class Data implements IteratorAggregate
     private int $second = 2;
     protected int $third = 3;
 
-    public function getIterator(): ArrayIterator
+    public function getIterator(): Iterator
     {
-        return new ArrayIterator(["second" => $this->second, "third" => $this->third]);
+        yield "second" => $this->second;
+        yield "third" => $this->third;
     }
 }
 
-function even(int $max): ArrayIterator
+function even(int $max): Iterator
 {
-    $array = [];
-
     for ($i = 1; $i <= $max; $i++) {
         if ($i % 2 === 0) {
-            $array[] = $i;
+            yield $i;
         }
     }
-
-    return new ArrayIterator($array);
 }
 
 foreach (new Data() as $key => $number) {
