@@ -3,27 +3,26 @@
 function sayHello(Customer $customer): string
 {
     return "hello" . match ($customer->gender) {
-        Gender::Male => " mr. $customer->name",
-        Gender::Female => " mrs. $customer->name",
+        Gender::Male => " {$customer->gender->value} $customer->name",
+        Gender::Female => " {$customer->gender->value} $customer->name",
+        default => " $customer->name",
     };
 }
 
-enum Gender
+// like alias
+enum Gender: string
 {
-    case Male;
-    case Female;
+    case Male = "mr.";
+    case Female = "mrs.";
 }
 
 class Customer
 {
-    public function __construct(public string $name, public Gender $gender)
+    public function __construct(public string $name, public ?Gender $gender)
     {
     }
 }
 
-echo sayHello(new Customer("john doe", Gender::Male)) . "\n";
-echo sayHello(new Customer("jane doe", Gender::Female)) . "\n";
-
-echo "==================================================\n";
-
-var_dump(Gender::cases());
+echo sayHello(new Customer("john doe", Gender::from("mr."))) . "\n";
+echo sayHello(new Customer("jane doe", Gender::from("mrs."))) . "\n";
+echo sayHello(new Customer("david wilson", Gender::tryFrom("wrong"))) . "\n";
