@@ -1,15 +1,12 @@
 <?php
 
-enum Gender: string
+interface SayHello
 {
-    case Male = "mr.";
-    case Female = "mrs.";
+    public function sayHello(): string;
+}
 
-    public function sayHello(): string
-    {
-        return "hello $this->value";
-    }
-
+trait Indonesia
+{
     public function inIndonesia(): string
     {
         return match ($this) {
@@ -28,6 +25,22 @@ enum Gender: string
     }
 }
 
+enum Gender: string implements SayHello
+{
+    use Indonesia;
+
+    case Male = "mr.";
+    case Female = "mrs.";
+
+    const string AUTHOR = "anonymous";
+
+    public function sayHello(): string
+    {
+        return "hello $this->value";
+    }
+}
+
+echo Gender::AUTHOR . "\n";
 echo Gender::Male->sayHello() . "\n";
 echo Gender::Female->sayHello() . "\n";
 echo Gender::Male->inIndonesia() . "\n";
