@@ -1,25 +1,16 @@
 <?php
 
-class Address
-{
-    public ?string $country;
-}
-
 class Person
 {
-    public ?Address $address;
+    public function __toString(): string
+    {
+        return "person";
+    }
 }
 
-$address = new Address();
-$person = new Person();
-
-$address->country = "indonesia";
-$person->address = $address;
-
-function getCountry(?Person $person): ?string
+function sayHello(Stringable $stringable): void
 {
-    return $person?->address?->country ?? "country not found";
+    echo "hello {$stringable->__toString()}\n";
 }
 
-echo getCountry($person) . "\n";
-echo getCountry(null) . "\n";
+sayHello(new Person());
