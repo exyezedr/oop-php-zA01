@@ -1,14 +1,25 @@
 <?php
 
-class Person
+class Address
 {
-    public function __construct(
-        public string $name,
-        public string $city,
-        public string $country
-    ) {
-        echo json_encode($this) . "\n";
-    }
+    public ?string $country;
 }
 
-$person = new Person("john doe", "surabaya", "indonesia");
+class Person
+{
+    public ?Address $address;
+}
+
+$address = new Address();
+$person = new Person();
+
+$address->country = "indonesia";
+$person->address = $address;
+
+function getCountry(?Person $person): ?string
+{
+    return $person?->address?->country ?? "country not found";
+}
+
+echo getCountry($person) . "\n";
+echo getCountry(null) . "\n";
