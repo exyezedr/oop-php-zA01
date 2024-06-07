@@ -50,6 +50,11 @@ class Tesla implements Car, IsMaintenance
     }
 }
 
+function getInfo(HasBrand & IsExpensive $car): string
+{
+    return "{$car->getBrand()} | {$car->getTire()}";
+}
+
 $car = new Tesla();
 
 echo <<<MULTILINE
@@ -60,3 +65,4 @@ MULTILINE;
 
 echo json_encode($car->isExpensive()) . "\n";
 echo json_encode($car->isMaintenance()) . "\n";
+echo getInfo($car);
