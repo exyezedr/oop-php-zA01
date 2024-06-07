@@ -2,15 +2,12 @@
 
 class Person
 {
-    public function __toString(): string
-    {
-        return "person";
+    public function __construct(
+        public readonly string $name,
+        public readonly string $city,
+    ) {
+        echo json_encode($this) . "\n";
     }
 }
 
-function sayHello(Stringable $stringable): void
-{
-    echo "hello {$stringable->__toString()}\n";
-}
-
-sayHello(new Person());
+$person = new Person("john doe", "surabaya");
